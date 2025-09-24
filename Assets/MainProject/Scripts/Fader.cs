@@ -24,7 +24,6 @@ public class Fader : MonoBehaviour
 
     private bool hittedGound = false;
     private bool isFading = false;
-    private Vector3 landPoint;
     private float spawnY;
     private float groundY;
 
@@ -56,7 +55,7 @@ public class Fader : MonoBehaviour
         {
             float denom = spawnY - groundY;
             float alpha = denom != 0f ? Mathf.Clamp01((spawnY - transform.position.y) / denom) : 1f;
-			alpha = alpha*alpha;
+			alpha = alpha*alpha*alpha;
             SetAlpha(alpha);
         }
         else if (!isFading)

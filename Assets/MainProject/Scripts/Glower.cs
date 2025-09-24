@@ -26,6 +26,7 @@ public class Glower : MonoBehaviour
     private void OnLanded()
     {
         mat.EnableKeyword("_EMISSION");
+        mat.EnableKeyword("_UseEmissiveMap");
     }
 
     void Update()
