@@ -9,7 +9,7 @@ public class Spawner : MonoBehaviour
     [Range(0.1f, 10f)]
     public float spawnRate = 1f;
 
-    public int maxActiveSpheres = 100;
+    public int maxActiveSpheres = 200;
 
     private Coroutine spawnCoroutine;
 
@@ -48,7 +48,8 @@ public class Spawner : MonoBehaviour
             int active = GameObject.FindGameObjectsWithTag("Sphere").Length;
             if (spherePrefab != null && active < maxActiveSpheres)
             {
-                Instantiate(spherePrefab, transform.position, Quaternion.identity);
+                GameObject sphere = Instantiate(spherePrefab, transform.position, Quaternion.identity);
+                sphere.transform.localScale = Vector3.one * Random.Range(0.1f, 0.4f);
             }
 
             float interval = Mathf.Clamp(1f / Mathf.Max(0.0001f, spawnRate), 0.01f, 10f);

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class UI : MonoBehaviour
@@ -5,16 +6,16 @@ public class UI : MonoBehaviour
     [SerializeField]
     private Spawner spawner;
     [SerializeField]
-    private Slider slider;
+    private Slider spawnRateSlider;
     [SerializeField]
-    private Text label;
+    private TextMeshProUGUI spawnRateLabel;
     void Start()
     {
         if (spawner == null) return;
-        slider.minValue = 0.1f;
-        slider.maxValue = 10f;
-        slider.value = spawner.spawnRate;
-        slider.onValueChanged.AddListener(OnSliderChanged);
+        spawnRateSlider.minValue = 0.1f;
+        spawnRateSlider.maxValue = 10f;
+        spawnRateSlider.value = spawner.spawnRate;
+        spawnRateSlider.onValueChanged.AddListener(OnSliderChanged);
         UpdateLabel();
     }
     void OnSliderChanged(float value)
@@ -24,7 +25,7 @@ public class UI : MonoBehaviour
     }
     void UpdateLabel()
     {
-        if (label != null && spawner != null) label.text =
+        if (spawnRateLabel != null && spawner != null) spawnRateLabel.text =
         $"Spawn rate: {spawner.spawnRate:0.0}/s";
     }
 }

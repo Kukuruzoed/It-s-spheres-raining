@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 2587653261048591212}
   - component: {fileID: 8958907625967617537}
   - component: {fileID: 8259483886918311094}
+  - component: {fileID: 3988340288572353672}
+  - component: {fileID: 1840156169633249818}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Sphere
@@ -152,8 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minNudgeForce: 5
   maxNudgeForce: 10
-  fadeOutDuration: 10
-  maxDistanceFromLand: 3
+  fadeOutDuration: 2.99
   collisionFadeDelay: 0.05
 --- !u!114 &8259483886918311094
 MonoBehaviour:
@@ -169,3 +170,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minNudgeForce: 0.5
   maxNudgeForce: 2
+--- !u!114 &3988340288572353672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682020277131748716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f49aa47f9daddb428532f510e02ee48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnLanded:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1840156169633249818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682020277131748716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67c193e373deef943a4fe8f88d5e26f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  glowColor: {r: 0, g: 0, b: 1, a: 1}
+  glowPeriod: 1

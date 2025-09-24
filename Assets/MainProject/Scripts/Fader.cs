@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Renderer))]
+[RequireComponent(typeof(Sphere))]
 public class Fader : MonoBehaviour
 {
     [Header("Nudge on land")]
@@ -11,20 +13,16 @@ public class Fader : MonoBehaviour
     [Header("Fade settings")]
     public float fadeOutDuration = 5.0f;
 
-
-    [Header("Start fading distance")]
-    public float maxDistanceFromLand = 3.0f;
-
-
     [Header("Misc")]
     public float collisionFadeDelay = 0.05f;
 
 
+    private Sphere sphere;
     private Renderer renderer;
     private Material matInstance;
 
 
-    private bool landed = false;
+    private bool hittedGound = false;
     private bool isFading = false;
     private Vector3 landPoint;
     private float spawnY;
@@ -33,6 +31,8 @@ public class Fader : MonoBehaviour
     void Start()
     {
         renderer = GetComponent<Renderer>();
+        sphere = GetComponent<Sphere>();
+        sphere.OnLanded.AddListener(OnLanded);
 
         matInstance = renderer.material;
 
@@ -48,36 +48,20 @@ public class Fader : MonoBehaviour
         {
             groundY = ground.transform.position.y;
         }
-        else
-        {
-            RaycastHit hit;
-            Vector3 origin = transform.position + Vector3.up * 0.1f;
-            if (Physics.Raycast(origin, Vector3.down, out hit, Mathf.Infinity))
-            {
-                groundY = hit.point.y;
-            }
-            else
-            {
-                groundY = spawnY - 10f;
-            }
-        }
     }
 
     void Update()
     {
-        if (!landed)
+        if (!sphere.IsLanded)
         {
             float denom = spawnY - groundY;
             float alpha = denom != 0f ? Mathf.Clamp01((spawnY - transform.position.y) / denom) : 1f;
+			alpha = alpha*alpha;
             SetAlpha(alpha);
         }
         else if (!isFading)
         {
-            float dist = Vector3.Distance(transform.position, landPoint);
-            if (dist > maxDistanceFromLand)
-            {
-                StartFadeOut();
-            }
+            StartFadeOut();
         }
     }
 
@@ -88,27 +72,24 @@ public class Fader : MonoBehaviour
             Color col = matInstance.color;
             col.a = a;
             matInstance.color = col;
+
         }
     }
-    void OnCollisionEnter(Collision collision)
+    void OnLanded()
     {
         if (isFading) return;
+        hittedGound = true;
+        SetAlpha(1f);
+    }
 
 
-        if (!landed && collision.gameObject.CompareTag("Ground"))
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Sphere") && hittedGound)
         {
-            landed = true;
-            landPoint = collision.contacts[0].point;
-
-            SetAlpha(1f);
-        }
-
-        if (collision.gameObject.CompareTag("Sphere") && landed)
-        {
-            Fader other = collision.gameObject.GetComponent<Fader>();
-            if (other != null && !other.isFading)
+            if (!isFading)
             {
-                other.StartFadeOut();
+                StartFadeOut();
             }
 
             StartCoroutine(DelayedFadeOut(collisionFadeDelay));
